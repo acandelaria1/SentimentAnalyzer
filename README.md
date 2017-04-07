@@ -1,43 +1,30 @@
 # SentimentAnalyzer
 
-Alexis was here.
 
+This is a submission for the Yelp dataset challenge Round 9. The goal of this project is to take
+the yelp data set and train a sentiment Analysis classifier to rate reviews based on purely text.
+We can use a clustering technique with 5 centroids each representing 1-5 star ratings. It is possible that 
+validation of the classifier will be done against actual ratings associated with each review.
 
+###Considerations for the sentiment analysis classifier 
+- remove all stop words using nltk library
+- investigate data wrangling capabilities using pandas and possibly pyspark for parralelism
+- use an unsupervised technique to cluster reviews based on sentiment scores
+- possibly consider TF IDF to identify most relevant and useful words for identifying what a user values in restaurants 
 
-#### How To Contribute
+##Building the restaurant recommender system
+- Build a user-tem collaborative filtering recommender system that takes sentiment analysis from each customer and then finds
+ similar customers with similar sentiment for the same restaruant.
+- Utilize the jaccardian distance between several customer vectors to determine similarity
+- Utilize the utility matrix to offer recommendations
 
-- First step is to clone this repo onto local machine
-- git clone https://github.com/acandelaria1/SentimentAnalyzer.git
+###Things that I do not yet understand
+- how to handle a dataset as large as the Yelp Dataset
+- What kind of data preprocessing should be done
+- what kind of visualizations should be made to effectively demonstrate findings
+- Do official yelp star ratings actually mean anything or is there bias in these making validation of the classifier against them questionable
+- Could binary vectors be used to to find similarity between customers? Giving all ratings below 3 a rating of 0 and 1 for every rating 3 and above
+- if binary vector are used for user profiles then a jaccardian distance can be used to determine similarity
+- if ratings values of 1-5 are used then using the cosine distance will be better suited for comparing the user profiles
+- how will we present final product?
 
-- If you type git branch on command line then you will see which branches
-  you have locally and which branch you are currently on.
-
-- To contribute, create a new branch that makes sense for the feature you are trying to add
-- For this example you called type git checkout -b yourname-update-readme
-- if you run git branch again you will notice that git will say that you are on this newly 
-  created branch.
-
-- Update Readme file now using any text editor you want.
-- Once you have saved a change you can type git status to view all changed files
-
-- Git requires you to add changed files to what is called a staging area, commit these staged
-  changes, and then push them to a branch.
-
-- To add your updated read me change type git add -A
-  note: what this does is add ALL changed files.
-
-- Type git status again to see the difference in what staged files look like.
-
-- To commit, type git commit -m "Updated readme relevant message" and pass whatever message
-  you want to describe the action you are taking. Making good commit descriptions will
-  help you if you ever need to find the commit again.
-
-- Type git status again to see what commited changes look like
-- Now you can push them to the branch you just created with git push origin yourname-update-readme
-- When this is successful you can view the repo on the github website and it will show you the newly
-  pushed branch and give you the option to make a pull request off of this branch.
-- When you select create pull request off this branch you can then type a description of the pull request 
-  and on the side bar you will see options to add reviewers.
-- Once someone eles approves the pull request you can merge the branch into master and you have successfully contributed.
-
-- It is not over yet though: everyone else must continuously call git fetch, and git pull while on master to receive these latest updates.
