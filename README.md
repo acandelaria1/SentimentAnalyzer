@@ -6,19 +6,19 @@ the yelp data set and train a sentiment Analysis classifier to rate reviews base
 We can use a clustering technique with 5 centroids each representing 1-5 star ratings. It is possible that 
 validation of the classifier will be done against actual ratings associated with each review.
 
-###Considerations for the sentiment analysis classifier 
+### Considerations for the sentiment analysis classifier 
 - remove all stop words using nltk library
 - investigate data wrangling capabilities using pandas and possibly pyspark for parralelism
 - use an unsupervised technique to cluster reviews based on sentiment scores
 - possibly consider TF IDF to identify most relevant and useful words for identifying what a user values in restaurants 
 
-##Building the restaurant recommender system
+## Building the restaurant recommender system
 - Build a user-tem collaborative filtering recommender system that takes sentiment analysis from each customer and then finds
  similar customers with similar sentiment for the same restaruant.
 - Utilize the jaccardian distance between several customer vectors to determine similarity
 - Utilize the utility matrix to offer recommendations
 
-###Things that I do not yet understand
+### Things that I do not yet understand
 - how to handle a dataset as large as the Yelp Dataset
 - What kind of data preprocessing should be done
 - what kind of visualizations should be made to effectively demonstrate findings
