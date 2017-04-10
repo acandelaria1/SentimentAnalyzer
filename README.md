@@ -20,7 +20,10 @@ validation of the classifier will be done against actual ratings associated with
 
 ### Things that I do not yet understand
 - how to handle a dataset as large as the Yelp Dataset
+    - Can handle this on local machine. Considered and explored aws ec2 spot instance but successfully ran operations on local machine 
+      and will continue with this until cloud resources become necessary.
 - What kind of data preprocessing should be done
+    - Tokenizing sentences from reviews, tokenizing words from sentences, removing stop words.
 - what kind of visualizations should be made to effectively demonstrate findings
 - Do official yelp star ratings actually mean anything or is there bias in these making validation of the classifier against them questionable
 - Could binary vectors be used to to find similarity between customers? Giving all ratings below 3 a rating of 0 and 1 for every rating 3 and above
