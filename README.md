@@ -1,6 +1,5 @@
 # SentimentAnalyzer
 
-
 This is a submission for the Yelp dataset challenge Round 9. The goal of this project is to take
 the yelp data set and train a sentiment Analysis classifier to rate reviews based on purely text.
 We can use a clustering technique with 5 centroids each representing 1-5 star ratings. It is possible that 
@@ -24,6 +23,7 @@ validation of the classifier will be done against actual ratings associated with
       and will continue with this until cloud resources become necessary.
 - What kind of data preprocessing should be done
     - Tokenizing sentences from reviews, tokenizing words from sentences, removing stop words.
+    - Have sample code to remove stop words but instead using vader to found compound polarity
 - what kind of visualizations should be made to effectively demonstrate findings
 - Do official yelp star ratings actually mean anything or is there bias in these making validation of the classifier against them questionable
 - Could binary vectors be used to to find similarity between customers? Giving all ratings below 3 a rating of 0 and 1 for every rating 3 and above
