@@ -31,3 +31,6 @@ validation of the classifier will be done against actual ratings associated with
 - if ratings values of 1-5 are used then using the cosine distance will be better suited for comparing the user profiles
 - how will we present final product?
 
+Profiling results for uploading json file into pandas data frame, time measured in seconds
+![alt text](https://raw.githubusercontent.com/acandelaria1/SentimentAnalyzer/master/profile.png)
+
