@@ -19,7 +19,7 @@ with open ("yelp_dataset_challenge_round9/yelp_academic_dataset_review.json") as
     json_load = json.loads(json_dump)
     print("json load: ", time.clock() - jl_start_time)
     rj = time.clock()
-    df = pd.read_json(json_load)
+    df = pd.read_json(json_load, lines=True)
     print("read json into pandas: ", time.clock()-rj)
                                                             #df = pd.read_json(json.loads(json.dumps(f.read())), lines=True)
                                                                 
