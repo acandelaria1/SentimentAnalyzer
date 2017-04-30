@@ -1,26 +1,36 @@
 from __future__ import print_function
-from matplotlib import pyplot as plt
 import json
-from collections import Counter
-from datetime import datetime
-import pandas as pd
-import numpy as np
-import time
+import sqlite3
 
-with open ("yelp_dataset_challenge_round9/yelp_academic_dataset_review.json") as f:#"yelp_dataset_challenge_round9/yelp_academic_dataset_review.json") as f:
-    #comma delimited json requires read_json method to set lines parameter to true
-    fr_start_time = time.clock()
-    filer = f.read()
-    print("file read: ", time.clock()-fr_start_time)
-    jd_start_time = time.clock()
-    json_dump = json.dumps(filer)
-    print("json dump: ", time.clock() - jd_start_time)
-    jl_start_time = time.clock()
-    json_load = json.loads(json_dump)
-    print("json load: ", time.clock() - jl_start_time)
-    rj = time.clock()
-    df = pd.read_json(json_load, lines=True)
-    print("read json into pandas: ", time.clock()-rj)
-                                                            #df = pd.read_json(json.loads(json.dumps(f.read())), lines=True)
-                                                                
-print("completed upload of dataset")
+conn = sqlite3.connect('Yelp.db')
+c = conn.cursor()
+
+with open ("yelp_dataset_challenge_round9/yelp_academic_dataset_review.json") as f:
+
+    # Since the json files are newline delimited
+    review_count = 0
+    for line in f:
+        review_json = json.loads(line)
+
+        review_id = review_json['review_id']
+        user_id = review_json['user_id']
+        business_id = review_json['business_id']
+        stars = review_json['stars']
+        date = review_json['date']
+        text = review_json['text']
+        useful = review_json['useful']
+        funny = review_json['funny']
+        cool =  review_json['cool']
+        review_type =  review_json['type']
+
+        args = (review_id, user_id, business_id, stars, date, text, useful, funny, cool, review_type)
+        # Insert a review into the sqlite DB
+        print("review {} added".format(review_count))
+        sql_string = '''INSERT INTO REVIEW values ('{0}','{1}','{2}', {3},'{4}','{5}', {6}, {7}, {8},'{9}')'''.format(*args)
+        print(sql_string)
+        c.execute(sql_string)
+        review_count += 1
+# commit the changes to the db
+conn.commit()
+# close connection to db
+conn.close()
