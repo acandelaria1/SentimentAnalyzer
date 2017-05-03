@@ -3,3 +3,5 @@ yelp_dataset_challenge_round9/
 .DS_Store
 *.db
 *.json
+derby.log
+
