@@ -18,5 +18,7 @@ with open ("yelp_dataset_challenge_round9/yelp_academic_dataset_review.json") as
         text = review_json['text']
         rating = sid.polarity_scores(text)['compound']
 
+        review_count += 1
+        print("review ",review_count)
         csvwriter = csv.writer(reviewscsv, delimiter=' ',quotechar='|', quoting=csv.QUOTE_MINIMAL)
         csvwriter.writerow([user_id, business_id, rating])
