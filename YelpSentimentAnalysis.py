@@ -41,8 +41,8 @@ ratings_df = spark.read \
 
 """
 For the simplicity of this tutorial
-    For each line in the ratings dataset, we create a tuple of (userId, businessId, Rating). 
-    Rating is preprocessed value computed using Sentiment Analysis Vader 
+    For each line in the ratings dataset, we create a tuple of (userId, businessId, rating). 
+    rating is preprocessed value computed using Sentiment Analysis Vader 
 """
 # Load Businesses
 businesses_df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("yelpbusinesses.csv")
