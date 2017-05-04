@@ -26,9 +26,9 @@ spark = SparkSession.builder.appName("YelpSentimentAnalysis").config("spark.reco
 """
 Loading and Parsing Dataset
     Each line in the yelpreviews dataset (yelpreviews.csv) is formatted as:
-         userId,movieId,rating,timestamp
+         userId,businessId,rating,timestamp
     Each line in the yelpbusinesses (yelpbusinesses.csv) dataset is formatted as:
-        movieId,title,genres
+        businessId,businessName,genres
 
 """ 
 
@@ -41,14 +41,14 @@ ratings_df = spark.read \
 
 """
 For the simplicity of this tutorial
-    For each line in the ratings dataset, we create a tuple of (UserID, BusinessID, Rating). 
+    For each line in the ratings dataset, we create a tuple of (userId, businessId, Rating). 
     Rating is preprocessed value computed using Sentiment Analysis Vader 
 """
 # Load Businesses
-movies_df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("yelpbusinesses.csv")
+businesses_df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("yelpbusinesses.csv")
 
 """
-For each line in the yelpbusinesses dataset, we create a tuple of (BusinessID, BusinessName). 
+For each line in the yelpbusinesses dataset, we create a tuple of (businessId, businessName). 
 """
 
 
@@ -60,8 +60,8 @@ We need first to split it into train, validation, and test datasets.
 
 # Prepare test and validation set. They should not have ratings
 
-validation_for_predict = validationData.select('userId','movieId')
-test_for_predict = testData.select('userId','movieId')
+validation_for_predict = validationData.select('userId','businessId')
+test_for_predict = testData.select('userId','businessId')
 
 """
 
@@ -112,18 +112,18 @@ predictions_test.take(3)
 
 
 """
-Let's start recommending movies.
+Let's start recommending businesses.
 I have written a method to call recommendations for a perticular user from test data
 
 TODO: You need to execute one more step before calling getRecommendations, 
       Think about that step. If you go through the seps below, you will realize it soon.
 """
 def getRecommendations(user,testDf,trainDf,model):
-    # get all user and his/her rated movies
+    # get all user and his/her rated businesses
     userDf = testDf.filter(testDf.userId == user)
-    # filter movies from main set which have not been rated by selected user
+    # filter businesses from main set which have not been rated by selected user
     # and pass it to model we sreated above
-    mov = trainDf.select('movieId').subtract(userDf.select('movieId'))
+    mov = trainDf.select('businessId').subtract(userDf.select('businessId'))
     
     # Again we need to covert our dataframe into RDD
     pred_rat = model.predictAll(mov.rdd.map(lambda x: (336, x[0]))).collect()
@@ -132,8 +132,6 @@ def getRecommendations(user,testDf,trainDf,model):
     recommendations = sorted(pred_rat, key=lambda x: x[2], reverse=True)[:50]
     
     return recommendations
-
-
 
 # Assign user id for which we need recommendations
 user = 336
@@ -147,5 +145,5 @@ print "Businesses recommended for:%d" % user
 # TODO: we can convert derived_rec into a dataframe to present it properly
 for i in xrange(len(derived_rec)):
     print i+1
-    movies_df.filter(movies_df.movieId==derived_rec[i][1]).select('title').show()
+    businesses_df.filter(businesses_df.businessId==derived_rec[i][1]).select('businessName').show()
 
