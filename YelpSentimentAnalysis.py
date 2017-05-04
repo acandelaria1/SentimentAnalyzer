@@ -15,7 +15,7 @@ import seaborn as sns
 
 from pyspark.mllib.recommendation import ALS
 import math
-import pyspark.sql.*
+from pyspark.sql import *
 from pyspark.sql.functions import udf
 from pyspark.sql.types import *
 from pyspark.ml.evaluation import RegressionEvaluator
