@@ -34,3 +34,5 @@ validation of the classifier will be done against actual ratings associated with
 Profiling results for uploading json file into pandas data frame, time measured in seconds
 ![alt text](https://raw.githubusercontent.com/acandelaria1/SentimentAnalyzer/master/profile.png)
 
+An illustration of the utilization of string indexer to turn Yelp user and business Ids into integers
+![alt_text](https://raw.githubusercontent.com/acandelaria1/SentimentAnalyzer/master/stringindexer.png)
