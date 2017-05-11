@@ -12,13 +12,13 @@ import numpy as np
 from pyspark.sql import SparkSession
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 from pyspark.mllib.recommendation import ALS
 import math
 from pyspark.sql import *
 from pyspark.sql.functions import udf
 from pyspark.sql.types import *
 from pyspark.ml.evaluation import RegressionEvaluator
+from pyspark.ml.feature import StringIndexer
 
 # Calling spark session to register application
 spark = SparkSession.builder.appName("YelpSentimentAnalysis").config("spark.recom.demo", "1").getOrCreate()
@@ -31,13 +31,24 @@ Loading and Parsing Dataset
         businessId,businessName,genres
 
 """ 
-
 # Load ratings
 ratings_df = spark.read \
     .format("csv") \
     .option("header", "true") \
     .option("inferSchema", "true") \
     .load("yelpreviews.csv")
+
+#string indexer
+userIndexer = StringIndexer(inputCol="userId", outputCol="indexeduserId", handleInvalid='error')
+
+indexedUsers = userIndexer.fit(ratings_df).transform(ratings_df)
+
+businessIndexer = StringIndexer(inputCol="businessId", outputCol="indexedbusinessId", handleInvalid='error')
+
+indexedAll = businessIndexer.fit(indexedUsers).transform(indexedUsers)
+
+indexedAll.show()
+
 
 """
 For the simplicity of this tutorial
@@ -56,12 +67,12 @@ For each line in the yelpbusinesses dataset, we create a tuple of (businessId, b
 In order to determine the best ALS parameters, we will use the small dataset. 
 We need first to split it into train, validation, and test datasets.
 """
-(trainingData,validationData,testData) = ratings_df.randomSplit([0.6,0.2,0.2])
+(trainingData,validationData,testData) = indexedAll.randomSplit([0.6,0.2,0.2])
 
 # Prepare test and validation set. They should not have ratings
 
-validation_for_predict = validationData.select('userId','businessId')
-test_for_predict = testData.select('userId','businessId')
+validation_for_predict = validationData.select('indexeduserId','indexedbusinessId')
+test_for_predict = testData.select('indexeduserId','indexedbusinessId')
 
 """
 
@@ -146,4 +157,3 @@ print "Businesses recommended for:%d" % user
 for i in xrange(len(derived_rec)):
     print i+1
     businesses_df.filter(businesses_df.businessId==derived_rec[i][1]).select('businessName').show()
-
